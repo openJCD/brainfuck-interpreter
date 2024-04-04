@@ -2,7 +2,7 @@ use std::fs;
 use std::env;
 fn main() -> Result<(), String> {
    
-    println!("----- BFI v0.0.1B.Debug -----");
+    println!("----- BFI v1.0.0 release -----");
    
     let args: Vec<String> = env::args().collect();
     let path: &String = &args[1];
