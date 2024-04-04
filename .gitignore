@@ -1,3 +1,4 @@
 /target
 .dump
 file.bf
+/bfi-dump-lexer
