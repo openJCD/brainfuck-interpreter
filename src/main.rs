@@ -2,7 +2,7 @@ use std::fs;
 use std::env;
 fn main() -> Result<(), String> {
    
-    println!("----- BFI v1.0.0 release -----");
+    println!("----- BFI v0.1.0 release -----");
    
     let args: Vec<String> = env::args().collect();
     let path: &String = &args[1];
@@ -30,11 +30,9 @@ fn execute_tokens(filedata:String) -> Result<(), String>{
     let mut debug_data: Vec<String> = Vec::new();
     
     let mut file_index = 0;
-    //limit the depth of nested loops to 255
     let mut current_loop_scope_start: usize = 0;
     while filedata.capacity() > file_index {
         let token = &token_array[file_index];
-        //pythoners have to use copious amounts of nesting to do this (losers)
         match token {
             '+' => {mem_arr[mem_position] += 1}, 
             '-' => {mem_arr[mem_position] -= 1}, 
