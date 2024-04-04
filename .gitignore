@@ -1,4 +1,4 @@
 /target
 .dump
-file.bf
+*.bf
 /bfi-dump-lexer
