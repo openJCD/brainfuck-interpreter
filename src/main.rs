@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fs;
 use std::env;
 fn main() -> Result<(), String> {
@@ -23,7 +24,7 @@ fn execute_tokens(filedata:String) -> Result<(), String>{
     let token_array: &Vec<char> = &filedata.chars().collect(); 
     
     let mut mem_arr:Vec<u8> = vec![0; 30_000];
-     
+    let mut loops: HashMap<usize, u32> = HashMap::new();
     // start halfway through the array
     let mut mem_position:usize = 14_999;
     
