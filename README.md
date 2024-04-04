@@ -3,3 +3,4 @@
  - Interprets Brainfuck files : 
    `./bfi <filename>`
  - Outputs a barely-readable .dump debug file 
+ - Cannot (yet) interpret nested loops.
