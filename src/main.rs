@@ -1,6 +1,11 @@
+pub mod tokenizer;
+pub mod interpreter;
+use tokenizer::*;
+use interpreter::*;
 use std::collections::HashMap;
 use std::fs;
 use std::env;
+
 fn main() -> Result<(), String> {
    
     println!("----- BFI v0.1.0 release -----");
@@ -11,51 +16,16 @@ fn main() -> Result<(), String> {
     println!("loading from file: {}", args[1]);
     
     let filedata = fs::read_to_string(path).expect("Error reading the file given as first argument.");
-    
-    execute_tokens(filedata)?;
+
+    let data:(Vec<Tokens>, HashMap<usize, usize>) = do_all_token_ops(filedata); 
+    execute_instructions(data.0, data.1)?;
+    //println!{"-----------------------TOKENS:------------------------------\r\n{:?}", tokens}
 
     //-----END-----     
     Ok(())
 
 }
 
-fn execute_tokens(filedata:String) -> Result<(), String>{
-
-    let token_array: &Vec<char> = &filedata.chars().collect(); 
-    
-    let mut mem_arr:Vec<u8> = vec![0; 30_000];
-    let mut loops: HashMap<usize, u32> = HashMap::new();
-    // start halfway through the array
-    let mut mem_position:usize = 14_999;
-    
-    let mut debug_data: Vec<String> = Vec::new();
-    
-    let mut file_index = 0;
-    let mut current_loop_scope_start: usize = 0;
-    while filedata.capacity() > file_index {
-        let token = &token_array[file_index];
-        match token {
-            '+' => {mem_arr[mem_position] += 1}, 
-            '-' => {mem_arr[mem_position] -= 1}, 
-            '>' => {mem_position += 1},
-            '<' => {mem_position -= 1},
-            '[' => {/*loop_nest += 1;*/ current_loop_scope_start = file_index},
-            ']' => {if mem_arr[mem_position] > 0 {file_index = current_loop_scope_start}},
-            ',' => { 
-                let mut input:String = String::new();
-                println!("expecting char input:");                        
-                std::io::stdin().read_line(&mut input).expect("issue reading input");
-                let characters:Vec<char> = input.chars().collect();
-                mem_arr[mem_position] = characters[0] as u8;
-            }, 
-            '.' => {print!("{}", mem_arr[mem_position] as char)},
-            _ => {},
-        } ;
-        file_index +=1;
-        debug_data.push(create_debug_string(&token, mem_position, &mem_arr, file_index));
-    }
-    Ok(())
-}
 
 fn create_debug_string (tok:&char, arr_pos:usize, arr:&Vec<u8>, file_pos:usize) -> String {
     let token = *tok;
