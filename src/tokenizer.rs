@@ -17,7 +17,8 @@ pub fn do_all_token_ops(data:String, debug_enable:bool) ->(Vec<Tokens>, HashMap<
     let char_data = data.chars().collect();
     let tokens = tokenize(data, debug_enable);
     let hash = map_loops(char_data);
-    if debug_enable {println!("{:?}", hash)};
+
+    if debug_enable {println!("\r\n----------------Loop Map----------------- \r\n{:?}", hash)};
     (tokens, hash)
 }
 
@@ -62,7 +63,10 @@ pub fn map_loops (char_data:Vec<char>) -> HashMap<usize, usize> {
                     Some(x) => x,
                     None => {println!("Mismatched brackets at {index}!"); std::process::exit(1); }
                 };
+                // key is the right bracket
                 map.insert(index, n);
+                //key is the left bracket.
+                map.insert(n, index);
             }
             _ => {}
         }

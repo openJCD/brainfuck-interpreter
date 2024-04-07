@@ -2,7 +2,7 @@ pub mod tokenizer;
 pub mod interpreter;
 use tokenizer::*;
 use interpreter::*;
-use std::collections::HashMap;
+
 use std::fs;
 use std::env;
 use std::time::Instant;
@@ -22,7 +22,7 @@ fn main() -> Result<(), String> {
     }
     println!("loading from file: {}", args[1]);
     let filedata = fs::read_to_string(path).expect("Error reading the file given as first argument.");
-    let mut data;
+    let data;
     if mode == "--debug" {
         data = do_all_token_ops(filedata, true); 
         execute_instructions(data.0, data.1, true)?;
