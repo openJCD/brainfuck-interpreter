@@ -53,7 +53,7 @@ pub fn execute_instructions(tokens:Vec<Tokens>, loop_map:HashMap<usize, usize>, 
         }
         if debug_enable {
             let buf = format!{"mem index: {memory_pointer} | tape index: {} | OPCODE: {:?} | ascii char no: {}\r\n", index, tokens[index], memory_map[memory_pointer]};
-            debug_dumpfile.write(buf.as_bytes()).expect("error writing dumpfile");
+            debug_dumpfile.write_all(buf.as_bytes()).expect("error writing dumpfile");
         }
         index +=1;
     }
