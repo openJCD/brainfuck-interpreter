@@ -10,18 +10,19 @@ pub enum Tokens {
     CloseLoop(usize),
     OutputCell,
     InputToCell,
+    Comment
 }
 
-pub fn do_all_token_ops(data:String) ->(Vec<Tokens>, HashMap<usize, usize>) {
+pub fn do_all_token_ops(data:String, debug_enable:bool) ->(Vec<Tokens>, HashMap<usize, usize>) {
     let char_data = data.chars().collect();
-    let tokens = tokenize(data);
+    let tokens = tokenize(data, debug_enable);
     let hash = map_loops(char_data);
-    //println!("{:?}", tokens);
+    if debug_enable {println!("{:?}", hash)};
     (tokens, hash)
 }
 
 /// Parse the characters into abstract tokens. Largely useful for 
-pub fn tokenize(bf_data:String) -> Vec<Tokens> {
+pub fn tokenize(bf_data:String, debug_enable:bool) -> Vec<Tokens> {
     let chars:Vec<char> = bf_data.chars().collect();
     let mut tokens:Vec<Tokens> = Vec::new();
     let mut parser_index:usize = 0;
@@ -35,11 +36,12 @@ pub fn tokenize(bf_data:String) -> Vec<Tokens> {
             ']' => {tokens.push(Tokens::CloseLoop(parser_index))},
             ',' => {tokens.push(Tokens::InputToCell)},
             '.' => {tokens.push(Tokens::OutputCell)},
-            '\r' => {},
-            '\n' => {},
-            _ => {}
+            _ => {tokens.push(Tokens::Comment)}
         };
         parser_index += 1;
+        if debug_enable {
+            print!{" {:?} ", tokens[parser_index-1]}
+        }
     }
     tokens        
 }
