@@ -1,5 +1,5 @@
 use crate::tokenizer::*;
-use std::{collections::HashMap, io::Read};
+use std::collections::HashMap;
 
 pub fn execute_instructions(tokens:Vec<Tokens>, loop_map:HashMap<usize, usize>) -> Result<(), String> {
     
@@ -46,10 +46,8 @@ pub fn execute_instructions(tokens:Vec<Tokens>, loop_map:HashMap<usize, usize>) 
                 let c:Vec<char> = input.chars().collect();
                 memory_map[memory_pointer] = c[0] as u8;
             },
-            _=>{}
         }
         index +=1;
     }
-
     Ok(())
 }
